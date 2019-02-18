@@ -1,3 +1,4 @@
+console.log("Successfuly launched script.");      
 setInterval(function(){
     //gets hostname for topic
     var os = require("os");
@@ -9,7 +10,7 @@ setInterval(function(){
     
     //Gets system temperature
    var sys_temperature = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp");    
-   if (sys_temperature > 57000){
+   if (sys_temperature > 570){
     temperature = ((sys_temperature/1000).toPrecision(3));
     var time = new Date();
 
@@ -20,7 +21,6 @@ setInterval(function(){
       }
     //Publishes message
         client.on('connect', function () {
-        client.publish(hostname, message) })
-        console.log(JSON.stringify(message));      
-    }	
-    },2000);
+        client.publish(hostname, JSON.stringify(message)) })
+        console.log("Sucessfully sent:" + JSON.stringify(message));      
+    }},2000);
