@@ -1,4 +1,3 @@
-
 console.log("Successfuly launched script.");      
 
 //Init
@@ -29,17 +28,16 @@ client.on('message', function (topic, message) {
   var obj = JSON.parse(mess);
   var value = obj.value;
   var time = obj.time_stamp;
-
-
   var res = time.toString().substring(4, 26);
-  console.log("--------------------------------------------------------");
-  console.log('Received message:'+ "Recieved: " + value + "   |   " + top + "   |   " + res);
+  console.log('\x1b[33m%s\x1b[0m: ', "--------------------------------------------------------");  
+  console.log('\x1b[33m%s\x1b[0m: ', 'Received message:'+ "Recieved: " + value + "   |   " + top + "   |   " + res); 
 
 
   //Enters message into DB
  	db.query('INSERT INTO sensorData VALUES(null, ?, ?, ?)', [top, value, time]);
-   console.log("Insert: OK");
-   console.log("--------------------------------------------------------");
+  console.log('\x1b[33m%s\x1b[0m: ', "Insert: OK");
+  console.log('\x1b[33m%s\x1b[0m: ', "--------------------------------------------------------");
+
 
 })
 
