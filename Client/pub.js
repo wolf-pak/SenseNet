@@ -20,7 +20,8 @@ setInterval(function(){
     //Json
     var message = { 
         "value"  :  temperature, 
-        "time_stamp"   :  time
+        "time_stamp"   :  time,
+        "type" : "light"
       }
 
     //Publishes message
