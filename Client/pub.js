@@ -16,17 +16,29 @@ setInterval(function(){
     temperature = ((sys_temperature/1000).toPrecision(3));
     var time = new Date();
     var res = time.toString().substring(4, 26);
+    var type = "Light"; //Hardcoded value for light sensor.
+    var type1 = "Vibration"; //Hardcoded value for vibration sensor.
 
     //Json
     var message = { 
         "value"  :  temperature, 
         "time_stamp"   :  time,
-        "type" : "light"
+        "type" : type
       }
+
+    var message1 = { 
+        "value"  :  temperature, 
+        "time_stamp"   :  time,
+        "type" : type1
+      }
+
+    var topic = hostname + "/" + type;
+    var topic1 = hostname + "/" + type1;
 
     //Publishes message
         client.on('connect', function () {
-        client.publish(hostname, JSON.stringify(message)) })
+        client.publish(topic, JSON.stringify(message))
+        client.publish(topic1, JSON.stringify(message1)) })
         console.log("--------------------------------------------------------");
         console.log("Sucessfully sent: " + message.value + "     |     " + res);
         console.log("Nr: " + msgnr + " since start");
