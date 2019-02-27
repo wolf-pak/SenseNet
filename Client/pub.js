@@ -6,12 +6,32 @@ setInterval(function(){
     var hostname = os.hostname();
     //Initializes mqtt
     var mqtt = require('mqtt')
-    var client  = mqtt.connect('mqtt:192.168.4.1')
     var fs =  require('fs');
+    var path = require('path')
+    var KEY = fs.readFileSync(path.join(__dirname, '..', '..', 'test', 'helpers', 'tls-key.pem'))
+    var CERT = fs.readFileSync(path.join(__dirname, '..', '..', 'test', 'helpers', 'tls-cert.pem'))
+    var TRUSTED_CA_LIST = fs.readFileSync(path.join(__dirname, '/crt.ca.cg.pem'))
+
+    var PORT = 1883
+    var HOST = '192.168.4.1'
+  
+    var options = {
+        port: PORT,
+        host: HOST,
+        key: KEY,
+        cert: CERT,
+        rejectUnauthorized: false,
+        // The CA list will be used to determine if server is authorized
+        ca: TRUSTED_CA_LIST,
+        protocol: 'mqtts'
+    }
+    
+    var client  = mqtt.connect(options)  //'mqtt:192.168.4.1'
+
+    msgnr ++;
+
     var time = new Date();
     var res = time.toString().substring(4, 26);
-    msgnr ++;
-    
     var messageArray = [];
 
     function Sensor(value, type, sensorId) {
@@ -43,7 +63,9 @@ setInterval(function(){
     //console.log(messageArray);
     //Publishes message
         client.on('connect', function () {
-            
+        
+        client.tls_set("/etc/mosquitto/ca_certificates/ca.crt")
+
         for(i = 0; i < messageArray.length; i++){
             var message = messageArray[i];
             var topic = hostname + "/" + message.type + "/" + message.sensorId;
