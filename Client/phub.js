@@ -49,13 +49,13 @@ setInterval(function(){
     }
     messageArray.push(JSON.stringify(light1)); 
 
-    console.log(messageArray);
+    //console.log(messageArray);
     //Publishes message
         client.on('connect', function () {
             
         for(i = 0; i < messageArray.length; i++){
             var message = messageArray[i];
-            var topic = hostname //+ "/" + message.type + "/" + message.sensorId;
+            var topic = hostname + "/" + message.type + "/" + message.sensorId;
             client.publish(topic, message)
             console.log("--------------------------------------------------------");
             console.log("Nr: " + msgnr + " since start");
