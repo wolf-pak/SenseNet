@@ -18,10 +18,10 @@ setInterval(function(){
 
 
     var PORT = 8883 // 8883
-    var HOST = '192.168.4.1'
+    var HOST = '192.168.4.1' //Bill
   
     var options = {
-       // clientId : clientId,
+        //clientId : clientId,
         username : 'Jan',
         password : 'raspberry',
         port: PORT,
@@ -37,7 +37,6 @@ setInterval(function(){
     var client  = mqtt.connect(options)  //'mqtt:192.168.4.1'  //client.tls_set("/etc/mosquitto/ca_certificates/ca.crt")
 
     msgnr ++;
-
     var time = new Date();
     var res = time.toString().substring(4, 26);
     var messageArray = [];
@@ -70,9 +69,9 @@ setInterval(function(){
 
     console.log("Utanför Connectmetoden.");
     //Publishes message
-        client.on('connect', function () {
+        client.on('connect', function (err) {
             console.log("Innanför Connectmetoden.");
-
+            
         for(var i = 0; i < messageArray.length; i++){
             var message = messageArray[i];
             var topic = hostname + "/" + message.type + "/" + message.sensorId;
