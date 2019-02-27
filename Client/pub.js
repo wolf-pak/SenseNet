@@ -1,3 +1,5 @@
+'use strict'
+
 console.log("Successfuly launched script."); 
 var msgnr = 0;     
 setInterval(function(){
@@ -8,14 +10,20 @@ setInterval(function(){
     var mqtt = require('mqtt')
     var fs =  require('fs');
     var path = require('path')
-    var KEY = fs.readFileSync(path.join('/home/nodejs', '/client.key'))
-    var CERT = fs.readFileSync(path.join('/home/nodejs', '/client.crt'))
-    var TRUSTED_CA_LIST = fs.readFileSync(path.join('/home/nodejs', '/ca.srl'))
+    var KEY = fs.readFileSync(path.join("/home/nodejs", "/client.key"))
+    var CERT = fs.readFileSync(path.join("/home/nodejs","/client.crt"))
+    var TRUSTED_CA_LIST = fs.readFileSync(path.join("/home/nodejs", "/ca.srl"))
 
-    var PORT = 1883
+    //var clientId = 'mqttjs_' + Math.random().toString(16).substr(2, 8)
+
+
+    var PORT = 8883 // 8883
     var HOST = '192.168.4.1'
   
     var options = {
+       // clientId : clientId,
+        username : 'Jan',
+        password : 'raspberry',
         port: PORT,
         host: HOST,
         key: KEY,
@@ -60,12 +68,12 @@ setInterval(function(){
     messageArray.push(light1); 
 
 
-    //console.log(messageArray);
+    console.log("Utanför Connectmetoden.");
     //Publishes message
         client.on('connect', function () {
-        
+            console.log("Innanför Connectmetoden.");
 
-        for(i = 0; i < messageArray.length; i++){
+        for(var i = 0; i < messageArray.length; i++){
             var message = messageArray[i];
             var topic = hostname + "/" + message.type + "/" + message.sensorId;
             client.publish(topic, JSON.stringify(message))
