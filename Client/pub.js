@@ -8,9 +8,9 @@ setInterval(function(){
     var mqtt = require('mqtt')
     var fs =  require('fs');
     var path = require('path')
-    var KEY = fs.readFileSync(path.join(__dirname, '..', '..', 'test', 'helpers', 'tls-key.pem'))
-    var CERT = fs.readFileSync(path.join(__dirname, '..', '..', 'test', 'helpers', 'tls-cert.pem'))
-    var TRUSTED_CA_LIST = fs.readFileSync(path.join(__dirname, '/crt.ca.cg.pem'))
+    var KEY = fs.readFileSync(path.join('/home/nodejs', '/client.key'))
+    var CERT = fs.readFileSync(path.join('/home/nodejs', '/client.crt'))
+    var TRUSTED_CA_LIST = fs.readFileSync(path.join('/home/nodejs', '/ca.srl'))
 
     var PORT = 1883
     var HOST = '192.168.4.1'
@@ -26,7 +26,7 @@ setInterval(function(){
         protocol: 'mqtts'
     }
     
-    var client  = mqtt.connect(options)  //'mqtt:192.168.4.1'
+    var client  = mqtt.connect(options)  //'mqtt:192.168.4.1'  //client.tls_set("/etc/mosquitto/ca_certificates/ca.crt")
 
     msgnr ++;
 
@@ -64,7 +64,6 @@ setInterval(function(){
     //Publishes message
         client.on('connect', function () {
         
-        client.tls_set("/etc/mosquitto/ca_certificates/ca.crt")
 
         for(i = 0; i < messageArray.length; i++){
             var message = messageArray[i];
