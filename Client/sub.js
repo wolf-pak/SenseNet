@@ -13,7 +13,7 @@ console.log("Successfuly launched script.");
 
 
 var dblite = require('dblite'),
-  db = dblite('brokerDB.db');
+  db = dblite('/home/broker/brokerDB.db');
 
   var PORT = 8883 // 8883
   var HOST = '192.168.4.1' //Bill
