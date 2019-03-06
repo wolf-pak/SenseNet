@@ -43,6 +43,7 @@ namespace SenseNetCloud.Controllers
                                 Id = (int)x["id"],
                                 Time = ((DateTime)x["time"]).ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                 Value = (string)x["value"],
+                                Type = (string)x["type"],
                                 Node = (string)x["node"],
                                 SensorId = (string)x["sensorId"],
                             }).ToList();

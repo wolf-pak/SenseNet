@@ -20,9 +20,9 @@ class Service{
   constructor(){
 
 //MQTT Cert
-var KEY = fs.readFileSync(path.join("/Users/Joseph/source/repos/SenseNet/Cert/Client", "/client.key"))
-var CERT = fs.readFileSync(path.join("/Users/Joseph/source/repos/SenseNet/Cert/Client", "/client.crt"))
-var TRUSTED_CA_LIST = fs.readFileSync(path.join("/Users/Joseph/source/repos/SenseNet/Cert", "/ca.srl"))
+      var KEY = fs.readFileSync(path.join("C:/Users/Phili/OneDrive/Documents/GitHub/SenseNet/Cert/Client", "/client.key"))
+      var CERT = fs.readFileSync(path.join("C:/Users/Phili/OneDrive/Documents/GitHub/SenseNet/Cert/Client", "/client.crt"))
+      var TRUSTED_CA_LIST = fs.readFileSync(path.join("C:/Users/Phili/OneDrive/Documents/GitHub/SenseNet/Cert", "/ca.srl"))
 
 //MQTT Connection options
 this.options = {
@@ -30,7 +30,7 @@ this.options = {
   username: 'Jan',
   password: 'raspberry',
   port: 8883,
-  host: 'bill.local',
+  host: '192.168.4.1',
   key: KEY,
   cert: CERT,
   rejectUnauthorized: false,
@@ -62,10 +62,11 @@ this.config = {
     //Connect MQTT
     var client = mqtt.connect(this.options)
     //var client = await mqtt.connect('mqtt://broker.mqttdashboard.com')
+    console.log(client)
 
     client.on('connect', function () {
         console.log('MQTT-Client Connected')
-     // console.log(client)
+     
 
       client.subscribe('#', function(err){
         if (!err) {
@@ -83,10 +84,11 @@ this.config = {
          
            // Stored procedure
            let pool = connection;
-           let result2 = await pool.request()
+
+            let result2 = await pool.request()
                .execute('getSensorData')
            
-           console.dir(result2)
+           //console.dir(result2)
           
   //JSON
   var obj = JSON.parse(message.toString());
