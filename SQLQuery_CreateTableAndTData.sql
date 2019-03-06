@@ -19,5 +19,12 @@ CURRENT_TIMESTAMP,
 DROP TABLE SensorState
 
 
-ALTER DATABASE SensorCloudDB SET enable_broker 
+USE SensorCloudDB;
+CREATE QUEUE StateChangeQueue;
+
+CREATE SERVICE StateChangeService ON QUEUE StateChangeQueue ([http://schemas.microsoft.com/SQL/Notifications/PostQueryNotification]);
+
+GRANT SUBSCRIBE QUERY NOTIFICATIONS TO admin;
+
+ALTER DATABASE SensorCloudDB SET ENABLE_BROKER;
 

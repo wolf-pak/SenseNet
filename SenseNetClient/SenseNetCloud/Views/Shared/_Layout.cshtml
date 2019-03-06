@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Apex Legends</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -31,7 +31,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - WolfPak</p>
         </footer>
     </div>
 
@@ -46,6 +46,7 @@
             // Proxy created on the fly
             var data = $.connection.dataHub;
             // Declare a function on the job hub so the server can invoke it
+
             data.client.displayData = function () {
                 getData();
             };
@@ -68,11 +69,11 @@
                             '<td>' + model.Id + '</td>' +
                             '<td>' + new Date(model.Time) + '</td>' +
                             '<td>' + model.Value + '</td>' +
-                            '<td>' +  + '</td>' +
+                            '<td>' + model.Type + '</td>' +
                             '<td>' + model.Node + '</td>' +
                             '<td>' + model.SensorId + '</td>' +
                             '<tr>'
-                            );
+                        );
                     });
                 }
             });

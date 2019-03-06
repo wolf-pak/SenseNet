@@ -23,7 +23,7 @@ namespace SenseNetCloud.Controllers
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["SenseClientConnection"].ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(@"SELECT * FROM [dbo].[SensorState]", connection))
+                using (SqlCommand command = new SqlCommand(@"SELECT id, time, value, type, node, sensorId FROM [dbo].[SensorState]", connection))
                 {
                     // Make sure the command object does not already have
                     // a notification object associated with it.
@@ -55,6 +55,7 @@ namespace SenseNetCloud.Controllers
 
         private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
         {
+
             DataHub.Show();
         }
     }
