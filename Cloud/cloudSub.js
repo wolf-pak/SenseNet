@@ -94,6 +94,7 @@ this.config = {
            let result1 = await pool.request()
            .input('time', sql.DateTime, new Date(/*obj.time*/))
            .input('value', sql.VarChar, obj.value)
+           .input('type', sql.VarChar, obj.type)
            .input('node', sql.VarChar, obj.hostname)
            .input('sensorID', sql.VarChar, obj.sensorId)
                .execute('addSensorData')
