@@ -1,3 +1,4 @@
 # SenseNet
 
-Copyright Pablo
+Copyright WolfPak
+
