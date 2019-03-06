@@ -17,3 +17,7 @@ CURRENT_TIMESTAMP,
 
 
 DROP TABLE SensorState
+
+
+ALTER DATABASE SensorCloudDB SET enable_broker 
+
