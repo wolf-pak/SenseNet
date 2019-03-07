@@ -26,5 +26,12 @@ namespace SenseNetCloud.Controllers
 
             return View();
         }
+
+        public ActionResult Graph1()
+        {
+            //ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
     }
 }

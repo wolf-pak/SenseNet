@@ -3,25 +3,35 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>SensorData</h2>
 
-@Html.Hidden("Get", Url.Action("Get", "Data"));
+@Html.Hidden("Get", Url.Action("Get", "Data"))
 
-<table class="table">
+<body id="body" onload="startTime(), startDate()">
 
-    <thred>
-        <tr>
-            <th>Id</th>
-            <th>Time</th>
-            <th>Value</th>
-            <th>Type</th>
-            <th>Node</th>
-            <th>Sensor</th>
-        </tr>
+    <h1>DAGENS DATUM - <span id="date">CURRENT DATE</span></h1>
+    <h2>
+        <span id="txt">CURRENT TIME</span>
+    </h2>
 
-        <tbody id="tblInfo"></tbody>
+    <table class="table">
 
+        <thred>
+            <tr>
+                <th>Id</th>
+                <th>Time</th>
+                <th>Value</th>
+                <th>Type</th>
+                <th>Node</th>
+                <th>Sensor</th>
+            </tr>
 
-    </thred>
-</table>
+            <tbody id="tblInfo"></tbody>
 
+        </thred>
+    </table>
+
+</body>
+
+<script src="@Url.Content("~/Scripts/Javascript/time.js")" type="text/javascript"></script>
+  
