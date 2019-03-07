@@ -5,7 +5,7 @@ function startTime() {
     var s = today.getSeconds();
     m = checkTime(m);
     s = checkTime(s);
-    document.getElementById('txt').innerHTML =
+    document.getElementById('time').innerHTML =
         h + ":" + m + ":" + s;
     var t = setTimeout(startTime, 500);
 }
@@ -19,5 +19,12 @@ function startDate() {
     y = n.getFullYear();
     m = n.getMonth() + 1;
     d = n.getDate();
+    var day = getDayName(n, "en-US"); 
+    
+    document.getElementById("dateName").innerHTML = day;
     document.getElementById("date").innerHTML = d + "/" + m;
+}
+
+function getDayName(date, locale) { 
+    return date.toLocaleDateString(locale, { weekday: 'long' });
 }

@@ -3,17 +3,12 @@
     ViewBag.Title = "Index";
 }
 
-<h2>SensorData</h2>
-
 @Html.Hidden("Get", Url.Action("Get", "Data"))
 
 <body id="body" onload="startTime(), startDate()">
 
-    <h1>DAGENS DATUM - <span id="date">CURRENT DATE</span></h1>
-    <h2>
-        <span id="txt">CURRENT TIME</span>
-    </h2>
-
+    <h1> <span id="dateName">DateName</span> - <span id="date">CurrentDate</span> - <span id="time">CurrentTime</span> </h1>
+ 
     <table class="table">
 
         <thred>

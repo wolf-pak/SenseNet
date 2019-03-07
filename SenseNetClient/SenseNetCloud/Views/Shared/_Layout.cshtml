@@ -63,7 +63,7 @@
                 success: function (data) {
                     $tbl.empty();
                     $.each(data.listData, function (i, model) {
-                        $tbl.append
+                        $tbl.prepend
                             (
                             '<tr>' +
                             '<td>' + model.Id + '</td>' +
