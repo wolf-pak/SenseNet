@@ -21,6 +21,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Graph1", "Graph1", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
@@ -38,57 +39,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
-
-
     <script src="~/signalr/hubs" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(function () {
-            // Proxy created on the fly
-            var data = $.connection.dataHub;
-            // Declare a function on the job hub so the server can invoke it
-
-            data.client.displayData = function () {
-                getData();
-            };
-            // Start the connection
-            $.connection.hub.start();
-            getData();
-        });
-        function getData() {
-            var $tbl = $('#tblInfo');
-            $.ajax({
-                url: $("#Get").val(),
-                type: 'GET',
-                datatype: 'json',
-                success: function (data) {
-                    $tbl.empty();
-                    $.each(data.listData, function (i, model) {
-                        $tbl.prepend
-                            (
-                            '<tr>' +
-                            '<td>' + model.Id + '</td>' +
-                            '<td>' + new Date(model.Time) + '</td>' +
-                            '<td>' + model.Value + '</td>' +
-                            '<td>' + model.Type + '</td>' +
-                            '<td>' + model.Node + '</td>' +
-                            '<td>' + model.SensorId + '</td>' +
-                            '<tr>'
-                            );
-                    });
-                }
-            });
-        }
-    </script>
-
-    <!--
-        
-    
-        Exempel på hur jag kan spalta ut koden i typ metoden ovan.  skapa en javascript folder och lägga den nånstans
-
-        <script src="@Url.Content("~/Content/Javascript/time.js")" type="text/javascript"></script>
-
-        -->
-    
+    <script src="~/Scripts/Javascript/getData.js" type="text/javascript"></script>
 
 </body>
 </html>
