@@ -30,8 +30,9 @@ function getData() {
                     '<td>' + model.Node + '</td>' +
                     '<td>' + model.SensorId + '</td>' +
                     '<tr>'
-                    );
+                );
             });
         }
     });
+
 }
