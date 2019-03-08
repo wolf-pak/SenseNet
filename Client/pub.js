@@ -6,7 +6,7 @@ var mqtt = require('mqtt')
 var fs = require('fs');
 //var path = require('path')
 //var clientoptions = fs.readFileSync(path.join("/home/nodejs","/clientoptions.js"))
-var clientoptions = require('/home/nodejs/clientoptions');
+var clientoptions = require('/home/client/clientoptions');
 
 var options = clientoptions.fetchoptions();
 var msgnr = 0;
@@ -30,6 +30,9 @@ messageArray.push(light1);
 var light2 = new SensorState(0, "light", "lightTwo", new Date());
 messageArray.push(light2);
 
+var temperature2 = new SensorState(0, "temperature", "temperatureTwo", new Date());
+messageArray.push(temperature2);
+
 var client = mqtt.connect(options);  //client.tls_set("/etc/mosquitto/ca_certificates/ca.crt")
 
 // if (sys_temperature > 570){   //}	
@@ -49,13 +52,13 @@ client.on('connect', function (err) {
                     var sys_temperature = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp");
                     var tempTemperature = ((sys_temperature / 1000).toPrecision(3));
                     messageArray[i].value = tempTemperature;
-                    messageArray[i].date = new Date();
+                    messageArray[i].time = new Date();
                     break;
                 case "light":
                     var sys_light = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp");
                     var tempLight = ((sys_light / 1000).toPrecision(3));
                     messageArray[i].value = tempLight;
-                    messageArray[i].date = new Date();
+                    messageArray[i].time = new Date();
                     break;
                 default:
                     break;
@@ -67,9 +70,9 @@ client.on('connect', function (err) {
 
             console.log("--------------------------------------------------------");
             console.log("Sucessfully sent: " + JSON.stringify(message.value) + "     |     " + new Date().toString().substring(4, 26));
-            console.log("Nr: " + msgnr + " since start");
+            console.log("Nr: " + msgnr + " since start " + message.time);
         }
 
-    }, 2000);
+    }, 8000);
 })
 
