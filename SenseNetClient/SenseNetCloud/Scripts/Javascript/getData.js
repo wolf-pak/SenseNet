@@ -12,6 +12,7 @@
 });
 
 function getData() {
+ 
     var $tbl = $('#tblInfo');
     $.ajax({
         url: $("#Get").val(),

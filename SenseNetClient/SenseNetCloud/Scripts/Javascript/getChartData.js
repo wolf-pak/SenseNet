@@ -37,8 +37,7 @@ function getChartData() {
 
                 arrValues.push([model.Id, new Date(model.Time), model.Value, model.Type, model.Node, model.SensorId]);
 
-            });
-
+            });   
         }
      });
 }

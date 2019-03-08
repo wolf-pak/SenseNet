@@ -8,6 +8,12 @@
 <!DOCTYPE HTML>
 <html>
 <body id="body">
+
+
+    <div id="container1" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/data.js"></script>
@@ -20,117 +26,106 @@
     <script src="https://www.highcharts.com/media/com_demo/js/highslide.config.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="https://www.highcharts.com/media/com_demo/css/highslide.css" />
 
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
 </body>
 </html>
-
 <script>
 
-    Highcharts.chart('container', {
+    var data1 = [{
+        name: 'Tokyo',
+        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+    }, {
+        name: 'New York',
+        data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+    }, {
+        name: 'Berlin',
+        data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+    }, {
+        name: 'London',
+        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+    }];
 
-        chart: {
-            scrollablePlotArea: {
-                minWidth: 700
-            }
-        },
+   // data1.data.push
+    //getChartData();
+    drawChart(data1);
 
-        data: {
-            csvURL: 'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/analytics.csv',
-            beforeParse: function (csv) {
-                return csv.replace(/\n\n/g, '\n');
-            }
-        },
-
-        title: {
-            text: 'Daily sessions at www.highcharts.com'
-        },
-
-        subtitle: {
-            text: 'Source: Google Analytics'
-        },
-
-        xAxis: {
-            tickInterval: 7 * 24 * 3600 * 1000, // one week
-            tickWidth: 0,
-            gridLineWidth: 1,
-            labels: {
-                align: 'left',
-                x: 3,
-                y: -3
-            }
-        },
-
-        yAxis: [{ // left y axis
-            title: {
-                text: null
-            },
-            labels: {
-                align: 'left',
-                x: 3,
-                y: 16,
-                format: '{value:.,0f}'
-            },
-            showFirstLabel: false
-        }, { // right y axis
-            linkedTo: 0,
-            gridLineWidth: 0,
-            opposite: true,
-            title: {
-                text: null
-            },
-            labels: {
-                align: 'right',
-                x: -3,
-                y: 16,
-                format: '{value:.,0f}'
-            },
-            showFirstLabel: false
-        }],
-
-        legend: {
-            align: 'left',
-            verticalAlign: 'top',
-            borderWidth: 0
-        },
-
-        tooltip: {
-            shared: true,
-            crosshairs: true
-        },
-
-        plotOptions: {
-            series: {
-                cursor: 'pointer',
-                point: {
-                    events: {
-                        click: function (e) {
-                            hs.htmlExpand(null, {
-                                pageOrigin: {
-                                    x: e.pageX || e.clientX,
-                                    y: e.pageY || e.clientY
-                                },
-                                headingText: this.series.name,
-                                maincontentText: Highcharts.dateFormat('%A, %b %e, %Y', this.x) + ':<br/> ' +
-                                    this.y + ' sessions',
-                                width: 200
-                            });
-                        }
+   /* function getChartData() {
+         resultData[];
+;        $.ajax({
+            url: $("#Get").val(),
+            type: 'GET',
+            datatype: 'json',
+            success: function (data) {
+                //result should be a array of json and the format of data should be similar to what Highcharts uses.
+                $.each(data.listData, function (i, model) {
+                    if (model.node == 'Jan') {
+                        resultData.push('TEST', model.Value)
                     }
-                },
-                marker: {
-                    lineWidth: 1
-                }
+                });   
+                drawChart(resultData);
             }
-        },
+        });
+    } */
 
-        series: [{
-            name: 'All sessions',
-            lineWidth: 4,
-            marker: {
-                radius: 4
-            }
-        }, {
-            name: 'New users'
-        }]
-    });
+    function drawChart(data) {
+
+        $(function () {
+            $(document).ready(function () {
+                Highcharts.setOptions({
+                    global: {
+                        useUTC: false
+                    }
+                });
+
+                var chart;
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'container1',
+                        type: 'spline',
+                        marginRight: 10,
+                        events: {
+                            load: function () {
+
+                                // set up the updating of the chart each second
+                                var series = this.series[0];
+                                setInterval(function () {
+                                    var x = (new Date()).getTime(), // current time
+                                        y = Math.random();
+                                    series.addPoint([x, y], true, true);
+                                }, 1000);
+                            }
+                        }
+                    },
+                    title: {
+                        text: 'Live random data'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        tickPixelInterval: 150
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Value'
+                        },
+                        gridLineWidth: 0,
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                Highcharts.numberFormat(this.y, 2);
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    series: data
+                });
+            });
+
+        });
+    }
 </script>
