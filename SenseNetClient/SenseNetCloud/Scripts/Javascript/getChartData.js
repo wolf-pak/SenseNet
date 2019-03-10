@@ -1,21 +1,21 @@
-﻿$(function () {
-    // Proxy created on the fly
-    var data = $.connection.dataHub;
-    // Declare a function on the job hub so the server can invoke it
+﻿//$(function () {
+//    // Proxy created on the fly
+//    var data = $.connection.dataHub;
+//    // Declare a function on the job hub so the server can invoke it
 
-    data.client.displayData = function () {
-        getChartData();
-    };
-    // Start the connection
-    $.connection.hub.start();
-    getChartData();
-});
+//    data.client.displayData = function () {
+//        getChartData();
+//    };
+//    // Start the connection
+//    $.connection.hub.start();
+//    getChartData();
+//});
 
 function getChartData() {
 
     // VISUALIZATION API AND THE PIE CHART PACKAGE.
-    google.load("visualization", "1", { packages: ["corechart"] });
-    google.setOnLoadCallback(createPIE);
+    //google.load("visualization", "1", { packages: ["corechart"] });
+    //google.setOnLoadCallback(createPIE);
 
     function createPIE() {
         // SET CHART OPTIONS.
@@ -31,13 +31,15 @@ function getChartData() {
         type: 'GET',
         datatype: 'json',
         success: function (data) {
-            var arrValues = [['id', 'time', 'value', 'type', 'node', 'sensorId']];        // DEFINE AN ARRAY.
+            var arrValues = []
 
-            $.each(data.d, function (key, model) {
+            $.each(data.listData, function (key, model) {
 
-                arrValues.push([model.Id, new Date(model.Time), model.Value, model.Type, model.Node, model.SensorId]);
+                arrValues.push({ x: new Date(model.Time), y: parseFloat(model.Value) });
+               // console.log(arrValues[1])
+            });
 
-            });   
+            data = arrValues;
         }
      });
 }

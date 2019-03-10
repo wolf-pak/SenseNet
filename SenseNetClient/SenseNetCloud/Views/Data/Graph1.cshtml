@@ -14,6 +14,9 @@
 
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
+
+    @*<script src="~/Scripts/Javascript/getChartData.js"></script>*@
+
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/data.js"></script>
@@ -31,41 +34,21 @@
 </html>
 <script>
 
-    var data1 = [{
-        name: 'Tokyo',
-        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-    }, {
-        name: 'New York',
-        data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-    }, {
-        name: 'Berlin',
-        data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-    }, {
-        name: 'London',
-        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-    }];
 
-   // data1.data.push
-    //getChartData();
-    drawChart(data1);
+    
 
-   /* function getChartData() {
-         resultData[];
-;        $.ajax({
-            url: $("#Get").val(),
-            type: 'GET',
-            datatype: 'json',
-            success: function (data) {
-                //result should be a array of json and the format of data should be similar to what Highcharts uses.
-                $.each(data.listData, function (i, model) {
-                    if (model.node == 'Jan') {
-                        resultData.push('TEST', model.Value)
-                    }
-                });   
-                drawChart(resultData);
-            }
-        });
-    } */
+    $(function () {
+        // Proxy created on the fly
+        var data = $.connection.dataHub;
+        // Declare a function on the job hub so the server can invoke it
+
+        data.client.displayData = function () {
+            getChartData();
+        };
+        // Start the connection
+        $.connection.hub.start();
+        getChartData();
+    });
 
     function drawChart(data) {
 
@@ -87,12 +70,14 @@
                             load: function () {
 
                                 // set up the updating of the chart each second
-                                var series = this.series[0];
-                                setInterval(function () {
-                                    var x = (new Date()).getTime(), // current time
-                                        y = Math.random();
-                                    series.addPoint([x, y], true, true);
-                                }, 1000);
+                                
+                                var series = data;
+                             
+                                //setInterval(function () {
+                                //    var x = (new Date()).getTime(), // current time
+                                //        y = Math.random();
+                                //    series.addPoint([x, y], true, true);
+                                //}, 1000);
                             }
                         }
                     },
@@ -123,26 +108,72 @@
                         enabled: false
                     },
                     //series : data // För att använda Tokyodatan
-                    series: [{
-                        name: 'Random data',
-                        data: (function () {
-                            // generate an array of random data
-                            var data = [],
-                                time = (new Date()).getTime(),
-                                i;
+                    series: 
 
-                            for (i = -19; i <= 0; i++) {
-                                data.push({
-                                    x: time + i * 1000,
-                                    y: Math.random()
-                                });
-                            }
-                            return data;
-                        })()
+
+                    [{
+                        name: 'Random data',
+                        data: data
+                        
+                        
+                        
+                        //(function () {
+                        //    //generate an array of random data
+                        //    var data = getChartData()
+
+
+                            //    [],
+                            //    time = (new Date()).getTime(),
+                            //    i;
+
+                            //for (i = -19; i <= 0; i++) {
+                            //    data.push({
+                            //        x: getChartData()[0].time,
+                            //        y: getChartData()[0].value
+                            //    });
+
+                               
+                        //    }
+                           
+                        //})()
                     }]
                 });
             });
 
         });
     }
+
+    function getChartData() {
+
+        // VISUALIZATION API AND THE PIE CHART PACKAGE.
+        //google.load("visualization", "1", { packages: ["corechart"] });
+        //google.setOnLoadCallback(createPIE);
+
+        function createPIE() {
+            // SET CHART OPTIONS.
+            var options = {
+                title: 'Test',
+                colors: ['#888', 'orange'],
+                is3D: true
+            };
+        }
+
+        $.ajax({
+            url: $("#Get").val(),
+            type: 'GET',
+            datatype: 'json',
+            success: function (data) {
+                var arrValues = []
+
+                $.each(data.listData, function (key, model) {
+
+                    arrValues.push({ x: new Date(model.Time), y: parseFloat(model.Value) });
+                    // console.log(arrValues[1])
+                });
+
+                drawChart(arrValues);
+            }
+        });
+    }
+
 </script>
