@@ -112,7 +112,7 @@
 
 
                     [{
-                        name: 'Random data',
+                        name: 'Light Data',
                         data: data
                         
                         
@@ -161,17 +161,22 @@
         $.ajax({
             url: $("#Get").val(),
             type: 'GET',
-            datatype: 'json',
+            datatype: 'json',   
             success: function (data) {
                 var arrValues = []
+                var arrFiltered = []
 
                 $.each(data.listData, function (key, model) {
-
+               
                     arrValues.push({ x: new Date(model.Time), y: parseFloat(model.Value) });
                     // console.log(arrValues[1])
                 });
+                arrValues = arrValues.reverse();
+                for (var i = 0; i < 19; i++){
+                    arrFiltered.push({ x: new Date(arrValues[i].x), y: parseFloat(arrValues[i].y)});
+                }
 
-                drawChart(arrValues);
+                drawChart(arrFiltered);
             }
         });
     }
