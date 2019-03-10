@@ -2,11 +2,35 @@ console.log("Successfuly launched script.");
 
 //Init
 var mqtt = require('mqtt')
-var client  = mqtt.connect('mqtt:192.168.4.1')
-var dblite = require('dblite'),
-    db = dblite('brokerDB.db');
+var dblite = require('dblite')
+var fs = require('fs')
+var path = require('path')
+var db = dblite('brokerDB.db')
+
+//Certs
+var KEY = fs.readFileSync(path.join("/home/pi/Cert/Client", "/client.key"))
+var CERT = fs.readFileSync(path.join("/home/pi/Cert/Client", "/client.crt"))
+var TRUSTED_CA_LIST = fs.readFileSync(path.join("/home/pi/Cert", "/ca.srl"))
+
+//MQTT Options
+var options = {
+  //clientId : clientId,
+  username: 'Jan',
+  password: 'raspberry',
+  port: 8883,
+  host: 'bill.local',
+  key: KEY,
+  cert: CERT,
+  rejectUnauthorized: false,
+  // The CA list will be used to determine if server is authorized
+  ca: TRUSTED_CA_LIST,
+  protocol: 'mqtts'
+}
 
 //Connect
+var client  = mqtt.connect(options)
+
+//On Connect Event
 client.on('connect', function () {
   client.subscribe('#', function (err) {
     if (!err) {
@@ -23,11 +47,14 @@ client.on('message', function (topic, message) {
 
   //JSON
   var obj = JSON.parse(mess);
+  var time = obj.time;
   var value = obj.value;
-  var time = obj.time_stamp;
+  var node = obj.hostname;
+  var type = obj.type;
+  var sensorId = obj.sensorId;
 
   //Enters message into DB
- 	db.query('INSERT INTO sensorData VALUES(null, ?, ?, ?)', [top, value, time]);
+ 	db.query('INSERT INTO sensorData VALUES(null, ?, ?, ?, ?, ?)', [time, value, node, type, sensorId]);
  	console.log('Database: Inserted: ' + value + " from: " + top + ". Recorded at: " + time);
 })
 

@@ -86,20 +86,21 @@ this.config = {
            let result2 = await pool.request()
                .execute('getSensorData')
            
-           console.dir(result2)
+           //console.dir(result2)
           
   //JSON
   var obj = JSON.parse(message.toString());
            
            let result1 = await pool.request()
-           .input('time', sql.DateTime, new Date(/*obj.time*/))
+           .input('time', sql.DateTime, new Date(obj.time))
            .input('value', sql.VarChar, obj.value)
            .input('type', sql.VarChar, obj.type)
            .input('node', sql.VarChar, obj.hostname)
            .input('sensorID', sql.VarChar, obj.sensorId)
                .execute('addSensorData')
            
-           console.dir(result1)
+           //console.dir(result1)
+           console.log('Receiving from: ' + obj.hostname + ' Value: ' + obj.value + ' Recorded at: ' + obj.time)
   
            
         } catch (err) {
