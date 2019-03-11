@@ -1,4 +1,18 @@
-﻿function getChartData(data) {
+﻿$(function () {
+    // Proxy created on the fly
+    var data = $.connection.dataHub;
+
+    // Declare a function on the job hub so the server can invoke it
+
+    data.client.displayData = function () {
+        getChartData();
+    };
+    // Start the connection
+    $.connection.hub.start();
+    getChartData();
+});
+
+function getChartData(data) {
 
     function createPIE() {
         // SET CHART OPTIONS.
@@ -26,7 +40,6 @@
             for (var i = 0; i < 19; i++) {
                 arrFiltered.push({ x: new Date(arrValues[i].x), y: parseFloat(arrValues[i].y) });
             }
-
             drawChart(arrFiltered);
         }
     });
@@ -41,30 +54,27 @@ function drawChart(data) {
                     useUTC: false
                 }
             });
-            let container = document.getElementById('container1');
             var chart;
             chart = new Highcharts.Chart({
+
                 chart: {
-                    renderTo: container,
+                    renderTo: 'container1',
                     type: 'spline',
                     marginRight: 10,
                     events: {
+
                         load: function () {
+
 
                             // set up the updating of the chart each second
 
                             var series = data;
 
-                            //setInterval(function () {
-                            //    var x = (new Date()).getTime(), // current time
-                            //        y = Math.random();
-                            //    series.addPoint([x, y], true, true);
-                            //}, 1000);
                         }
                     }
                 },
                 title: {
-                    text: 'Live light data'
+                    text: 'Live Node Data'
                 },
                 xAxis: {
                     type: 'datetime',
@@ -99,4 +109,4 @@ function drawChart(data) {
         });
 
     });
-} 
+}

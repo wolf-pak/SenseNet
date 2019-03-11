@@ -1,19 +1,40 @@
-﻿<script src="~/Scripts/Javascript/getTableData.js" type="text/javascript"></script>
-<script src="~/Scripts/Javascript/getChartData.js" type="text/javascript"></script>
-
+﻿
 $(function () {
-        // Proxy created on the fly
+    // Proxy created on the fly
+    var data = $.connection.dataHub;
+    // Declare a function on the job hub so the server can invoke it
 
-        var data = $.connection.dataHub;
+    data.client.displayData = function () {
+            getTableData();
+        
+    };
+    // Start the connection
+    $.connection.hub.start();
+    getTableData();
+});
 
-        // Declare a function on the job hub so the server can invoke it
+function getTableData() {
 
-        data.client.displayData = function () {
-            getTableData(data);
-            getChartData(data);
-        };
-        // Start the connection
-        $.connection.hub.start();
-        getTableData(data);
-        getChartData(data);
+    var $tbl = $('#tblInfo');
+    $.ajax({
+        url: $("#Get").val(),
+        type: 'GET',
+        datatype: 'json',
+        success: function (data) {
+            $tbl.empty();
+            $.each(data.listData, function (i, model) {
+                $tbl.prepend
+                    (
+                    '<tr>' +
+                    '<td>' + model.Id + '</td>' +
+                    '<td>' + new Date(model.Time) + '</td>' +
+                    '<td>' + model.Value + '</td>' +
+                    '<td>' + model.Type + '</td>' +
+                    '<td>' + model.Node + '</td>' +
+                    '<td>' + model.SensorId + '</td>' +
+                    '<tr>'
+                    );
+            });
+        }
     });
+}
