@@ -1,39 +1,19 @@
-﻿$(function () {
-    // Proxy created on the fly
-    var data = $.connection.dataHub;
-    // Declare a function on the job hub so the server can invoke it
+﻿<script src="~/Scripts/Javascript/getTableData.js" type="text/javascript"></script>
+<script src="~/Scripts/Javascript/getChartData.js" type="text/javascript"></script>
 
-    data.client.displayData = function () {
-        getData();
-    };
-    // Start the connection
-    $.connection.hub.start();
-    getData();
-});
+$(function () {
+        // Proxy created on the fly
 
-function getData() {
- 
-    var $tbl = $('#tblInfo');
-    $.ajax({
-        url: $("#Get").val(),
-        type: 'GET',
-        datatype: 'json',
-        success: function (data) {
-            $tbl.empty();
-            $.each(data.listData, function (i, model) {
-                $tbl.prepend
-                    (
-                    '<tr>' +
-                    '<td>' + model.Id + '</td>' +
-                    '<td>' + new Date(model.Time) + '</td>' +
-                    '<td>' + model.Value + '</td>' +
-                    '<td>' + model.Type + '</td>' +
-                    '<td>' + model.Node + '</td>' +
-                    '<td>' + model.SensorId + '</td>' +
-                    '<tr>'
-                );
-            });
-        }
+        var data = $.connection.dataHub;
+
+        // Declare a function on the job hub so the server can invoke it
+
+        data.client.displayData = function () {
+            getTableData(data);
+            getChartData(data);
+        };
+        // Start the connection
+        $.connection.hub.start();
+        getTableData(data);
+        getChartData(data);
     });
-
-}

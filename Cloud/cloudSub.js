@@ -62,7 +62,7 @@ this.config = {
     //Connect MQTT
     var client = mqtt.connect(this.options)
     //var client = await mqtt.connect('mqtt://broker.mqttdashboard.com')
-    console.log(client)
+    //console.log(client)
 
     client.on('connect', function () {
         console.log('MQTT-Client Connected')

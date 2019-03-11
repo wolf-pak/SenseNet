@@ -9,13 +9,10 @@
 <html>
 <body id="body">
 
-
     <div id="container1" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
-
-    @*<script src="~/Scripts/Javascript/getChartData.js"></script>*@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -32,23 +29,54 @@
 
 </body>
 </html>
+
 <script>
-
-
-    
-
     $(function () {
         // Proxy created on the fly
         var data = $.connection.dataHub;
+
         // Declare a function on the job hub so the server can invoke it
 
         data.client.displayData = function () {
-            getChartData();
+            getChartData(data);
         };
         // Start the connection
         $.connection.hub.start();
-        getChartData();
+        getChartData(data);
     });
+
+    function getChartData(data) {
+
+        function createPIE() {
+            // SET CHART OPTIONS.
+            var options = {
+                title: 'Test',
+                colors: ['#888', 'orange'],
+                is3D: true
+            };
+        }
+
+        $.ajax({
+            url: $("#Get").val(),
+            type: 'GET',
+            datatype: 'json',
+            success: function (data) {
+                var arrValues = []
+                var arrFiltered = []
+
+                $.each(data.listData, function (key, model) {
+
+                    arrValues.push({ x: new Date(model.Time), y: parseFloat(model.Value) });
+                    // console.log(arrValues[1])
+                });
+                arrValues = arrValues.reverse();
+                for (var i = 0; i < 19; i++) {
+                    arrFiltered.push({ x: new Date(arrValues[i].x), y: parseFloat(arrValues[i].y) });
+                }
+                drawChart(arrFiltered);
+            }
+        });
+    }
 
     function drawChart(data) {
 
@@ -59,30 +87,27 @@
                         useUTC: false
                     }
                 });
-
                 var chart;
                 chart = new Highcharts.Chart({
+
                     chart: {
                         renderTo: 'container1',
                         type: 'spline',
                         marginRight: 10,
                         events: {
+
                             load: function () {
 
+                              
                                 // set up the updating of the chart each second
-                                
-                                var series = data;
-                             
-                                //setInterval(function () {
-                                //    var x = (new Date()).getTime(), // current time
-                                //        y = Math.random();
-                                //    series.addPoint([x, y], true, true);
-                                //}, 1000);
+
+                                    var series = data;
+
                             }
                         }
                     },
                     title: {
-                        text: 'Live random data'
+                        text: 'Live light data'
                     },
                     xAxis: {
                         type: 'datetime',
@@ -107,78 +132,15 @@
                     exporting: {
                         enabled: false
                     },
-                    //series : data // För att använda Tokyodatan
-                    series: 
+                    series:
 
-
-                    [{
-                        name: 'Light Data',
-                        data: data
-                        
-                        
-                        
-                        //(function () {
-                        //    //generate an array of random data
-                        //    var data = getChartData()
-
-
-                            //    [],
-                            //    time = (new Date()).getTime(),
-                            //    i;
-
-                            //for (i = -19; i <= 0; i++) {
-                            //    data.push({
-                            //        x: getChartData()[0].time,
-                            //        y: getChartData()[0].value
-                            //    });
-
-                               
-                        //    }
-                           
-                        //})()
-                    }]
+                        [{
+                            name: 'Light Data',
+                            data: data
+                        }]
                 });
             });
 
         });
     }
-
-    function getChartData() {
-
-        // VISUALIZATION API AND THE PIE CHART PACKAGE.
-        //google.load("visualization", "1", { packages: ["corechart"] });
-        //google.setOnLoadCallback(createPIE);
-
-        function createPIE() {
-            // SET CHART OPTIONS.
-            var options = {
-                title: 'Test',
-                colors: ['#888', 'orange'],
-                is3D: true
-            };
-        }
-
-        $.ajax({
-            url: $("#Get").val(),
-            type: 'GET',
-            datatype: 'json',   
-            success: function (data) {
-                var arrValues = []
-                var arrFiltered = []
-
-                $.each(data.listData, function (key, model) {
-               
-                    arrValues.push({ x: new Date(model.Time), y: parseFloat(model.Value) });
-                    // console.log(arrValues[1])
-                });
-                arrValues = arrValues.reverse();
-                for (var i = 0; i < 19; i++){
-                    arrFiltered.push({ x: new Date(arrValues[i].x), y: parseFloat(arrValues[i].y)});
-                }
-
-                drawChart(arrFiltered);
-            }
-        });
-    }
-
 </script>
