@@ -190,7 +190,7 @@
     <Content Include="connectionStrings.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Javascript\getData.js" />
-    <Content Include="Scripts\Javascript\getChartData.js" />
+    <Content Include="Scripts\Javascript\getLightData.js" />
     <Content Include="Scripts\Javascript\getTableData.js" />
     <Content Include="Scripts\Javascript\time.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

@@ -5,14 +5,14 @@
     // Declare a function on the job hub so the server can invoke it
 
     data.client.displayData = function () {
-        getChartData();
+        getLightData();
     };
     // Start the connection
     $.connection.hub.start();
-    getChartData();
+    getLightData();
 });
 
-function getChartData(data) {
+function getLightData() {
 
     function createPIE() {
         // SET CHART OPTIONS.
@@ -28,24 +28,52 @@ function getChartData(data) {
         type: 'GET',
         datatype: 'json',
         success: function (data) {
-            var arrValues = []
+
+            var nodeOneValues = []
+            var please = []
+            var nodeTwoValues = []
+            var nodeThreeValues = []
+            var nodeFourValues = []
+            //nodeFourValues[0] = []
+
             var arrFiltered = []
 
-            $.each(data.listData, function (key, model) {
 
-                arrValues.push({ x: new Date(model.Time), y: parseFloat(model.Value) });
-                // console.log(arrValues[1])
+            $.each(data.listData, function (key, model) {
+                    nodeFourValues.unshift({ x: new Date(model.Time), y: parseFloat(model.Value), z: model.Node, c: model.sensorId });
+
+                //nodeFourValues[0][0].unshift(new Date(model.Time))
+                //nodeFourValues[0][1].unshift(parseFloat(model.Value))
             });
-            arrValues = arrValues.reverse();
+
+           /* for (var i = 0; i < nodeFourValues[0].length; i++) {
+                if (nodeFourValues[0][i].z.equals('Jan') && nodeFourValues[0][i].c.equals('lightOne')) {
+                    for (var j = 0; j < 19; j++) {
+                        nodeOneValues.unshift({ x: new Date(nodeFourValues[0][i].x), y: parseFloat(nodeFourValues[0][i].y) });
+                    }
+                }               
+            } */
+            
+            //nodeFourValues = nodeFourValues.reverse();
+            /*for (var j = 0; j < nodeFourValues.length; j++) {
+                for (var k = 0; k < nodeFourValues[k].length; k++) {
+                    arrFiltered.push({ x: new Date(nodeFourValues[j][k]), y: parseFloat(nodeFourValues[j][++k]) });
+                }
+            } */
             for (var i = 0; i < 19; i++) {
-                arrFiltered.push({ x: new Date(arrValues[i].x), y: parseFloat(arrValues[i].y) });
-            }
+                if (nodeFourValues[i].z == "Dick") {
+                    arrFiltered.push({ x: new Date(nodeFourValues[i].x), y: parseFloat(nodeFourValues[i].y) });
+                }
+             
+            } 
+        
+
             drawChart(arrFiltered);
         }
     });
 }
 
-function drawChart(data) {
+function drawChart(dataOne) {
 
     $(function () {
         $(document).ready(function () {
@@ -68,7 +96,7 @@ function drawChart(data) {
 
                             // set up the updating of the chart each second
 
-                            var series = data;
+                            var series = dataOne;
 
                         }
                     }
@@ -102,8 +130,8 @@ function drawChart(data) {
                 series:
 
                     [{
-                        name: 'Light Data',
-                        data: data
+                        name: 'Jan',
+                        data: dataOne
                     }]
             });
         });
