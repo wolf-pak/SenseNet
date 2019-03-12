@@ -1,18 +1,18 @@
 ﻿$(function () {
     // Proxy created on the fly
-    var data = $.connection.dataHub;
+    var data = $.connection.dataHub; // IOm samma fil refererar data alltid till denna nu
 
     // Declare a function on the job hub so the server can invoke it
 
     data.client.displayData = function () {
-        getChartData();
+        getChartData(); // OM de ligger i olika filer skicka in denna data här, nu när de är i samma fil hittar den vår data direkt.
     };
     // Start the connection
     $.connection.hub.start();
     getChartData();
 });
 
-function getChartData(data) {
+function getChartData() {
 
     function createPIE() {
         // SET CHART OPTIONS.
@@ -73,7 +73,7 @@ function getChartData(data) {
     });
 }
 
-function drawChart(data) {
+function drawChart(dataOne) {
 
     $(function () {
         $(document).ready(function () {
@@ -96,7 +96,7 @@ function drawChart(data) {
 
                             // set up the updating of the chart each second
 
-                            var series = data;
+                            //var series = dataOne; //Denna gör nada heller 
 
                         }
                     }
@@ -131,7 +131,7 @@ function drawChart(data) {
 
                     [{
                         name: 'Light Data',
-                        data: data
+                        data: dataOne
                     }]
             });
         });
