@@ -1,17 +1,4 @@
 ﻿
-$(function () {
-    // Proxy created on the fly
-    var data = $.connection.dataHub;
-    // Declare a function on the job hub so the server can invoke it
-
-    data.client.displayData = function () {
-            getTableData();
-        
-    };
-    // Start the connection
-    $.connection.hub.start();
-    getTableData();
-});
 
 function getTableData() {
 

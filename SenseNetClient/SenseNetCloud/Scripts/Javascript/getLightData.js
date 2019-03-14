@@ -1,18 +1,4 @@
-﻿$(function () {
-    // Proxy created on the fly
-    var data = $.connection.dataHub;
-
-    // Declare a function on the job hub so the server can invoke it
-
-    data.client.displayData = function () {
-        getLightData();
-    };
-    // Start the connection
-    $.connection.hub.start();
-    getLightData();
-});
-
-function getLightData() {
+﻿function getLightData() {
 
     function createPIE() {
         // SET CHART OPTIONS.
@@ -23,6 +9,7 @@ function getLightData() {
         };
     }
 
+
     $.ajax({
         url: $("#Get").val(),
         type: 'GET',
@@ -30,50 +17,60 @@ function getLightData() {
         success: function (data) {
 
             var nodeOneValues = []
-            var please = []
             var nodeTwoValues = []
             var nodeThreeValues = []
             var nodeFourValues = []
-            //nodeFourValues[0] = []
 
-            var arrFiltered = []
+
+            var arrFilteredOne = []
+            var arrFilteredTwo = []
+            var arrFilteredThree = []
 
 
             $.each(data.listData, function (key, model) {
-                    nodeFourValues.unshift({ x: new Date(model.Time), y: parseFloat(model.Value), z: model.Node, c: model.sensorId });
+                //     nodeFourValues.unshift({ x: new Date(model.Time), y: parseFloat(model.Value), z: model.Node, c: model.sensorId });
 
-                //nodeFourValues[0][0].unshift(new Date(model.Time))
-                //nodeFourValues[0][1].unshift(parseFloat(model.Value))
+                if (model.Node == 'Jan') {
+                    if (model.SensorId == 'lightOne') {
+                        nodeOneValues.unshift(model);
+                    }
+
+                }
+                if (model.Node == 'Dick') {
+                    if (model.SensorId == 'lightOne') {
+                        nodeTwoValues.unshift(model);
+                    }
+
+                }
+                if (model.Node == 'Joe') {
+                    if (model.SensorId == 'lightOne') {
+                        nodeThreeValues.unshift(model);
+                    }
+
+                }
+
             });
 
-           /* for (var i = 0; i < nodeFourValues[0].length; i++) {
-                if (nodeFourValues[0][i].z.equals('Jan') && nodeFourValues[0][i].c.equals('lightOne')) {
-                    for (var j = 0; j < 19; j++) {
-                        nodeOneValues.unshift({ x: new Date(nodeFourValues[0][i].x), y: parseFloat(nodeFourValues[0][i].y) });
-                    }
-                }               
-            } */
-            
-            //nodeFourValues = nodeFourValues.reverse();
-            /*for (var j = 0; j < nodeFourValues.length; j++) {
-                for (var k = 0; k < nodeFourValues[k].length; k++) {
-                    arrFiltered.push({ x: new Date(nodeFourValues[j][k]), y: parseFloat(nodeFourValues[j][++k]) });
-                }
-            } */
-            for (var i = 0; i < 19; i++) {
-                if (nodeFourValues[i].z == "Dick") {
-                    arrFiltered.push({ x: new Date(nodeFourValues[i].x), y: parseFloat(nodeFourValues[i].y) });
-                }
-             
-            } 
-        
 
-            drawChart(arrFiltered);
+            for (var i = 0; i < 5; i++) {
+
+                arrFilteredOne.push({ x: new Date(nodeOneValues[i].Time), y: parseFloat(nodeOneValues[i].Value) });
+                arrFilteredTwo.push({ x: new Date(nodeTwoValues[i].Time), y: parseFloat(nodeTwoValues[i].Value) });
+                arrFilteredThree.push({ x: new Date(nodeThreeValues[i].Time), y: parseFloat(nodeThreeValues[i].Value) });
+
+
+
+
+
+            }
+
+
+            drawChart(arrFilteredOne, arrFilteredTwo, arrFilteredThree);
         }
     });
 }
 
-function drawChart(dataOne) {
+function drawChart(dataOne, dataTwo, dataThree) {
 
     $(function () {
         $(document).ready(function () {
@@ -95,14 +92,16 @@ function drawChart(dataOne) {
 
 
                             // set up the updating of the chart each second
-
-                            var series = dataOne;
+                             var series = []
+                             series[0] = dataOne;
+                             series[1] = dataTwo;
+                             series[2] = dataThree;
 
                         }
                     }
                 },
                 title: {
-                    text: 'Live Node Data'
+                    text: 'Live Light Data'
                 },
                 xAxis: {
                     type: 'datetime',
@@ -110,7 +109,7 @@ function drawChart(dataOne) {
                 },
                 yAxis: {
                     title: {
-                        text: 'Value'
+                        text: 'Light Level'
                     },
                     gridLineWidth: 0,
                 },
@@ -132,6 +131,13 @@ function drawChart(dataOne) {
                     [{
                         name: 'Jan',
                         data: dataOne
+                    }, {
+                        name: 'Dick',
+                        data: dataTwo
+
+                    }, {
+                        name: 'Joe',
+                        data: dataThree
                     }]
             });
         });
