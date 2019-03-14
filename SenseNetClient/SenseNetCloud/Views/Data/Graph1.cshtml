@@ -88,6 +88,7 @@
                     shift = series.data.length > 20; // shift if the series is 
                                                  // longer than 20
 
+
                     $.each(data.listData, function (key, model) {
                         //     nodeFourValues.unshift({ x: new Date(model.Time), y: parseFloat(model.Value), z: model.Node, c: model.sensorId });
 
@@ -95,14 +96,14 @@
                             if (model.SensorId == 'lightOne') {
                                 if (model.Id > maxId) {
                                     maxId = model.Id;
-                                              
+
                                     var x = (new Date(model.Time)), // current time
                                         y = parseFloat(model.Value)
                                     chart.series[0].addPoint([x, y], true, shift);
                                 }
                             }
-
-
+                        }
+    
                     });
                     //setTimeout(requestData, 1000);   
                 },
