@@ -47,34 +47,15 @@
 
         data.client.displayData = function () {
             //  getTableData();
-            //getLightdata();
             requestData()
 
         };
         // Start the connection
         $.connection.hub.start();
         // getTableData();
-        //getLightData();
         requestData()
 
     });
-    /*
-    $(function () {
-        $(document).ready(function () {
-            
-            var chart = $('#container1').highcharts();
-            var series = chart.series[0];
-           
-            setInterval(function () {
-
-
-                var x = (new Date()).getTime(), // current time
-                    y = Math.random();
-                series.addPoint([x, y], true, true);
-
-            }, 1000);
-        });
-    }); */
 
     function requestData() {
 
@@ -85,10 +66,10 @@
                 success: function (data) {
 
                     var series = chart.series[0];
-                    shift = series.data.length > 20; // shift if the series is 
-                                                 // longer than 20
-
-
+                    shift = series.data.length > 20; // shift if the series is longer than 20
+                                              
+                    var count = 0;
+ 
                     $.each(data.listData, function (key, model) {
                         //     nodeFourValues.unshift({ x: new Date(model.Time), y: parseFloat(model.Value), z: model.Node, c: model.sensorId });
 
@@ -96,14 +77,19 @@
                             if (model.SensorId == 'lightOne') {
                                 if (model.Id > maxId) {
                                     maxId = model.Id;
+                                    if (count < 20) {
+                                        count++;
+                                        var x = (new Date(model.Time)), // current time
+                                            y = parseFloat(model.Value)
+                                        chart.series[0].addPoint([x, y], true, shift);
+                                    }
 
-                                    var x = (new Date(model.Time)), // current time
-                                        y = parseFloat(model.Value)
-                                    chart.series[0].addPoint([x, y], true, shift);
+                                    
+
                                 }
                             }
                         }
-    
+
                     });
                     //setTimeout(requestData, 1000);   
                 },
@@ -111,64 +97,6 @@
 
             });
 
-    }
-
-    function getLightData() {
-
-
-        $.ajax({
-            url: $("#Get").val(),
-            type: 'GET',
-            datatype: 'json',
-            success: function (data) {
-
-                var nodeOneValues = []
-                var nodeTwoValues = []
-                var nodeThreeValues = []
-                var nodeFourValues = []
-
-
-                var arrFilteredOne = []
-                var arrFilteredTwo = []
-                var arrFilteredThree = []
-
-
-                $.each(data.listData, function (key, model) {
-                    //     nodeFourValues.unshift({ x: new Date(model.Time), y: parseFloat(model.Value), z: model.Node, c: model.sensorId });
-
-                    if (model.Node == 'Jan') {
-                        if (model.SensorId == 'lightOne') {
-                            nodeOneValues.unshift(model);
-                        }
-
-                    }
-                    if (model.Node == 'Dick') {
-                        if (model.SensorId == 'lightOne') {
-                            nodeTwoValues.unshift(model);
-                        }
-
-                    }
-                    if (model.Node == 'Joe') {
-                        if (model.SensorId == 'lightOne') {
-                            nodeThreeValues.unshift(model);
-                        }
-
-                    }
-
-                });
-
-                /*
-                for (var i = 0; i < 1; i++) {
-
-                    arrFilteredOne.push({ x: new Date(nodeOneValues[i].Time), y: parseFloat(nodeOneValues[i].Value) });
-                    arrFilteredTwo.push({ x: new Date(nodeTwoValues[i].Time), y: parseFloat(nodeTwoValues[i].Value) });
-                    arrFilteredThree.push({ x: new Date(nodeThreeValues[i].Time), y: parseFloat(nodeThreeValues[i].Value) });
-
-                } 
-                */
-
-            }
-        }); 
     }
 
     function drawChart() {
@@ -189,11 +117,7 @@
                         marginRight: 10,
                         events: {
 
-                            load: requestData /*function () {
-
-                                //this.series[0]
-
-                            } */
+                            load: requestData
                         }
                     },
                     title: {
@@ -223,23 +147,10 @@
                         enabled: false
                     },
                     series: [{
-                        name: 'Random data',
+                        name: 'Jan',
                         data: []
                     }]
 
-
-                        /*
-                        [{
-                            name: 'Jan',
-                            data: dataOne
-                        }]*, {
-                            name: 'Dick',
-                            data: dataTwo
-
-                        }, {
-                            name: 'Joe',
-                            data: dataThree
-                        }] */
                 });
             });
 
