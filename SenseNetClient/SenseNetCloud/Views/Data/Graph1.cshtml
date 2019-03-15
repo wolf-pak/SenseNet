@@ -68,29 +68,38 @@
                     var series = chart.series[0];
                     shift = series.data.length > 20; // shift if the series is longer than 20
                                               
+                    var janValues = []
                     var count = 0;
+                    var listLength = 0;
  
                     $.each(data.listData, function (key, model) {
-                        //     nodeFourValues.unshift({ x: new Date(model.Time), y: parseFloat(model.Value), z: model.Node, c: model.sensorId });
+                            
 
                         if (model.Node == 'Jan') {
                             if (model.SensorId == 'lightOne') {
                                 if (model.Id > maxId) {
                                     maxId = model.Id;
-                                    if (count < 20) {
-                                        count++;
-                                        var x = (new Date(model.Time)), // current time
-                                            y = parseFloat(model.Value)
-                                        chart.series[0].addPoint([x, y], true, shift);
-                                    }
-
-                                    
-
+                                    janValues.push({ x: new Date(model.Time), y: parseFloat(model.Value) });
                                 }
                             }
                         }
 
                     });
+
+                    if ((janValues.length - 20) > listLength) {
+                        listLength = (janValues.length - 20);
+                    }
+
+                    for (var i = listLength; i < janValues.length; i++) {                      
+                            if (count < 20) {
+                                count++;
+                                if (janValues[i] != null) {
+                                    var x = (new Date(janValues[i].x)), 
+                                        y = parseFloat(janValues[i].y)
+                                    chart.series[0].addPoint([x, y], true, shift);
+                                }                             
+                            }               
+                    }
                     //setTimeout(requestData, 1000);   
                 },
                 cache: false
