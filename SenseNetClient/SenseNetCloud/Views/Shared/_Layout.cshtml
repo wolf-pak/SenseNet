@@ -46,13 +46,25 @@
     <script src="@Url.Content("~/Scripts/Javascript/getData.js")" type="text/javascript"></script>
 
     <script>
+        $(function () {
+            // Proxy created on the fly
+            var data = $.connection.dataHub;
+            // Declare a function on the job hub so the server can invoke it
 
+
+            // Denna ser till att datan uppdateras så fort någon ändring sker i databasen.
+            data.client.displayData = function () {             
+                getTableData();
+                requestData()
+
+            };
+            // Start the connection.  Metoderna nedan ser till att datan populeras direkt utan databasanrop
+            $.connection.hub.start();
+            getTableData();
+            requestData()
+
+        });
     </script>
-
-
-
-
-
 
 
 </body>
