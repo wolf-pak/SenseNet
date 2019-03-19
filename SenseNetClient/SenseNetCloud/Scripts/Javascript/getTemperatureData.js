@@ -14,6 +14,9 @@ function requestTemperatureData() {
             var series = chart.series[0];
             shift = series.data.length > 20; // shift if the series is longer than 20
 
+            var seriesTwo = chart.series[1];
+            shiftTwo = seriesTwo.data.length > 20;
+
             var janValues = []
             var count = 0;
             var janListLength = 0;
@@ -70,7 +73,7 @@ function requestTemperatureData() {
                     if (dickValues[i] != null) {
                         var x = (new Date(dickValues[i].x)).getTime(),
                             y = parseFloat(dickValues[i].y)
-                        chart.series[1].addPoint([x, y], true, shift);
+                        chart.series[1].addPoint([x, y], true, shiftTwo);
                     }
                 }
             }
