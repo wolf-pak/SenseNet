@@ -1,7 +1,7 @@
-﻿var chart;
+﻿var chart1;
 var maxId = 0;
 
-drawChart();
+//drawLightChart();
 
 function requestLightData() {
 
@@ -11,7 +11,7 @@ function requestLightData() {
         datatype: 'json',
         success: function (data) {
 
-            var series = chart.series[0];
+            var series = chart1.series[0];
             shift = series.data.length > 20; // shift if the series is longer than 20
 
             var janValues = []
@@ -55,7 +55,7 @@ function requestLightData() {
                     if (janValues[i] != null) {
                         var x = (new Date(janValues[i].x)),
                             y = parseFloat(janValues[i].y)
-                        chart.series[0].addPoint([x, y], true, shift);
+                        chart1.series[0].addPoint([x, y], true, shift);
                     }
                 }
             }
@@ -70,7 +70,7 @@ function requestLightData() {
                     if (dickValues[i] != null) {
                         var x = (new Date(dickValues[i].x)),
                             y = parseFloat(dickValues[i].y)
-                        chart.series[1].addPoint([x, y], true, shift);
+                        chart1.series[1].addPoint([x, y], true, shift);
                     }
                 }
             }
@@ -83,7 +83,7 @@ function requestLightData() {
 
 }
 
-function drawChart() {
+function drawLightChart() {
 
     $(function () {
         $(document).ready(function () {
@@ -93,7 +93,7 @@ function drawChart() {
                 }
             });
 
-            chart = new Highcharts.Chart({
+            chart1 = new Highcharts.Chart({
 
                 chart: {
                     renderTo: 'container1',
@@ -101,7 +101,7 @@ function drawChart() {
                     marginRight: 10,
                     events: {
 
-                        load: requestData
+                        load: requestLightData
                     }
                 },
                 title: {

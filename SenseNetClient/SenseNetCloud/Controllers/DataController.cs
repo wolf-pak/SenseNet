@@ -16,7 +16,7 @@ namespace SenseNetCloud.Controllers
         public ActionResult Index()
         {
             return View();
-        }
+        } 
 
         public ActionResult LightData()
         {

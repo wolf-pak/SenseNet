@@ -1,7 +1,7 @@
 ﻿var chart;
 var maxId = 0;
 
-drawChart();
+//drawTemperatureChart();
 
 function requestTemperatureData() {
 
@@ -83,7 +83,7 @@ function requestTemperatureData() {
 
 }
 
-function drawChart() {
+function drawTemperatureChart() {
 
     $(function () {
         $(document).ready(function () {
@@ -101,7 +101,7 @@ function drawChart() {
                     marginRight: 10,
                     events: {
 
-                        load: requestData
+                        load: requestTemperatureData
                     }
                 },
                 title: {

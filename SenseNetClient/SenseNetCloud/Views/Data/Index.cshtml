@@ -5,7 +5,7 @@
 
 @Html.Hidden("Get", Url.Action("Get", "Data"))
 
-<body id="body" onload="startTime(), startDate()">
+<body id="body" onload="startTime(), startDate(), getTableData()">
 
     <h1> <span id="dateName">DateName</span> - <span id="date">CurrentDate</span> - <span id="time">CurrentTime</span> </h1>
 
@@ -29,4 +29,8 @@
 </body>
 
 <script src="@Url.Content("~/Scripts/Javascript/time.js")" type="text/javascript"></script>
+
+<script>
+
+</script>
 

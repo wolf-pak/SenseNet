@@ -56,16 +56,14 @@
 
             // Denna ser till att datan uppdateras så fort någon ändring sker i databasen.
             data.client.displayData = function () {
+
                 getTableData();
                 requestLightData();
-               // requestTemperatureData();
+                requestTemperatureData();
 
             };
-            // Start the connection.  Metoderna nedan ser till att datan populeras direkt utan databasanrop
+            // Start the connection.  Metoderna nedan ser till att datan populeras direkt utan databasanrop, Flyttade till cshtml filerna.
             $.connection.hub.start();
-            getTableData();
-            requestLightData();
-           // requestTemperatureData();
 
         });
     </script>
