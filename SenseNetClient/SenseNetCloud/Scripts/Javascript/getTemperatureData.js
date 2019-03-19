@@ -3,7 +3,7 @@ var maxId = 0;
 
 drawChart();
 
-function requestLightData() {
+function requestTemperatureData() {
 
     $.ajax({
         url: $("#Get").val(),
@@ -25,7 +25,7 @@ function requestLightData() {
             $.each(data.listData, function (key, model) {
 
                 if (model.Node == 'Jan') {
-                    if (model.SensorId == 'lightOne') {
+                    if (model.SensorId == 'temperatureOne') {
                         if (model.Id > maxId) {
                             maxId = model.Id;
                             janValues.push({ x: new Date(model.Time), y: parseFloat(model.Value) });
@@ -34,7 +34,7 @@ function requestLightData() {
                 }
 
                 if (model.Node == 'Dick') {
-                    if (model.SensorId == 'lightOne') {
+                    if (model.SensorId == 'temperatureOne') {
                         if (model.Id > maxId) {
                             maxId = model.Id;
                             dickValues.push({ x: new Date(model.Time), y: parseFloat(model.Value) });
@@ -64,7 +64,7 @@ function requestLightData() {
                 dickListLength = (dickValues.length - 20);
             }
 
-            for (var i = dickListLength; i  < dickValues.length; i++) {
+            for (var i = dickListLength; i < dickValues.length; i++) {
                 if (countTwo < 20) {
                     countTwo++;
                     if (dickValues[i] != null) {
@@ -96,7 +96,7 @@ function drawChart() {
             chart = new Highcharts.Chart({
 
                 chart: {
-                    renderTo: 'container1',
+                    renderTo: 'container', 
                     type: 'spline',
                     marginRight: 10,
                     events: {
@@ -105,7 +105,7 @@ function drawChart() {
                     }
                 },
                 title: {
-                    text: 'Live Light Data'
+                    text: 'Live Temperature Data'
                 },
                 xAxis: {
                     type: 'datetime',
@@ -113,7 +113,7 @@ function drawChart() {
                 },
                 yAxis: {
                     title: {
-                        text: 'Light Level'
+                        text: '°C'
                     },
                     gridLineWidth: 0,
                 },

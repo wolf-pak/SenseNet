@@ -18,7 +18,14 @@ namespace SenseNetCloud.Controllers
             return View();
         }
 
-        public ActionResult Graph1()
+        public ActionResult LightData()
+        {
+            //ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult TemperatureData()
         {
             //ViewBag.Message = "Your contact page.";
 
