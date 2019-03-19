@@ -53,7 +53,7 @@ function requestLightData() {
                 if (count < 20) {
                     count++;
                     if (janValues[i] != null) {
-                        var x = (new Date(janValues[i].x)),
+                        var x = (new Date(janValues[i].x)).getTime(),
                             y = parseFloat(janValues[i].y)
                         chart1.series[0].addPoint([x, y], true, shift);
                     }
@@ -68,7 +68,7 @@ function requestLightData() {
                 if (countTwo < 20) {
                     countTwo++;
                     if (dickValues[i] != null) {
-                        var x = (new Date(dickValues[i].x)),
+                        var x = (new Date(dickValues[i].x)).getTime(),
                             y = parseFloat(dickValues[i].y)
                         chart1.series[1].addPoint([x, y], true, shift);
                     }
@@ -105,7 +105,7 @@ function drawLightChart() {
                     }
                 },
                 title: {
-                    text: 'Live Light Data'
+                    text: 'Light Data'
                 },
                 xAxis: {
                     type: 'datetime',

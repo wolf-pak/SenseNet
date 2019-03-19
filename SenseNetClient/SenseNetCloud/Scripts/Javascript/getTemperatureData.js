@@ -53,7 +53,7 @@ function requestTemperatureData() {
                 if (count < 20) {
                     count++;
                     if (janValues[i] != null) {
-                        var x = (new Date(janValues[i].x)),
+                        var x = (new Date(janValues[i].x)).getTime(),
                             y = parseFloat(janValues[i].y)
                         chart.series[0].addPoint([x, y], true, shift);
                     }
@@ -68,7 +68,7 @@ function requestTemperatureData() {
                 if (countTwo < 20) {
                     countTwo++;
                     if (dickValues[i] != null) {
-                        var x = (new Date(dickValues[i].x)),
+                        var x = (new Date(dickValues[i].x)).getTime(),
                             y = parseFloat(dickValues[i].y)
                         chart.series[1].addPoint([x, y], true, shift);
                     }
@@ -105,7 +105,7 @@ function drawTemperatureChart() {
                     }
                 },
                 title: {
-                    text: 'Live Temperature Data'
+                    text: 'Temperature Data'
                 },
                 xAxis: {
                     type: 'datetime',
@@ -113,7 +113,7 @@ function drawTemperatureChart() {
                 },
                 yAxis: {
                     title: {
-                        text: '°C'
+                        text: 'Temperature °C'
                     },
                     gridLineWidth: 0,
                 },
