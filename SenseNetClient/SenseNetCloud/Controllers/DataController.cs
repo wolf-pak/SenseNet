@@ -10,8 +10,13 @@ using System.Web.Mvc;
 
 namespace SenseNetCloud.Controllers
 {
+
+   
     public class DataController : Controller
     {
+
+        DateTime lastrun = new DateTime(2015, 1, 1, 0, 0, 0, 0);
+
         // GET: Data
         public ActionResult Index()
         {
@@ -38,7 +43,7 @@ namespace SenseNetCloud.Controllers
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["SenseClientConnection"].ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(@"SELECT id, time, value, type, node, sensorId FROM [dbo].[SensorState]", connection))
+                using (SqlCommand command = new SqlCommand(@"SELECT id, time, value, type, node, sensorId FROM [dbo].[SensorState]", connection))  // WHERE time > '" + lastrun + "'"   
                 {
                     // Make sure the command object does not already have
                     // a notification object associated with it.

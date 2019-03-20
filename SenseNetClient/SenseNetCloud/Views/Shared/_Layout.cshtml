@@ -57,9 +57,15 @@
             // Denna ser till att datan uppdateras så fort någon ändring sker i databasen.
             data.client.displayData = function () {
 
-                getTableData();
-                requestLightData();
-                requestTemperatureData();
+                if ($("#tblInfo").length > 0) {
+                    getTableData();
+                }
+                if ($("#container").length > 0) {
+                    requestTemperatureData();
+                }
+                if ($("#container1").length > 0) {
+                    requestLightData();
+                }
 
             };
             // Start the connection.  Metoderna nedan ser till att datan populeras direkt utan databasanrop, Flyttade till cshtml filerna.
