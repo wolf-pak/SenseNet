@@ -20,9 +20,9 @@ class Service{
   constructor(){
 
 //MQTT Cert
-      var KEY = fs.readFileSync(path.join("C:/Users/Phili/OneDrive/Documents/GitHub/SenseNet/Cert/Client", "/client.key"))
-      var CERT = fs.readFileSync(path.join("C:/Users/Phili/OneDrive/Documents/GitHub/SenseNet/Cert/Client", "/client.crt"))
-      var TRUSTED_CA_LIST = fs.readFileSync(path.join("C:/Users/Phili/OneDrive/Documents/GitHub/SenseNet/Cert", "/ca.srl"))
+      var KEY = fs.readFileSync(path.join("../Cert/Client", "/client.key"))
+      var CERT = fs.readFileSync(path.join("../Cert/Client", "/client.crt"))
+      var TRUSTED_CA_LIST = fs.readFileSync(path.join("../Cert", "/ca.srl"))
 
 //MQTT Connection options
 this.options = {
