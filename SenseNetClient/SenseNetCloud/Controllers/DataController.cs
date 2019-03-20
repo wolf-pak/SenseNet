@@ -16,6 +16,7 @@ namespace SenseNetCloud.Controllers
     {
 
         DateTime lastrun = new DateTime(2015, 1, 1, 0, 0, 0, 0);
+        int maxId = 0;
 
         // GET: Data
         public ActionResult Index()
@@ -43,7 +44,8 @@ namespace SenseNetCloud.Controllers
             using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["SenseClientConnection"].ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(@"SELECT id, time, value, type, node, sensorId FROM [dbo].[SensorState]", connection))  // WHERE time > '" + lastrun + "'"   
+                using (SqlCommand command = new SqlCommand(@"SELECT id, time, value, type, node, sensorId FROM [dbo].[SensorState] WHERE id > '" + maxId + "'", connection))  
+                    // WHERE time > '" + lastrun + "'"   
                 {
                     // Make sure the command object does not already have
                     // a notification object associated with it.
@@ -67,6 +69,14 @@ namespace SenseNetCloud.Controllers
                                 Node = (string)x["node"],
                                 SensorId = (string)x["sensorId"],
                             }).ToList();
+
+                    if(listData.Count != 0)
+                    {
+                        maxId = listData.Max(x => x.Id);
+                        //lastrun = DateTime.Parse(listData.LastOrDefault().Time);
+                        System.Diagnostics.Debug.WriteLine(maxId);
+                    }
+
 
                     return Json(new { listData = listData }, JsonRequestBehavior.AllowGet);
 
