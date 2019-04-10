@@ -38,5 +38,5 @@ sudo node main.js
 
 The script will start subscirbing to all topics retreived by it's own broker and storing it to a DBLite Database, which could be further developed to be used as a backup for internet malfunction.
 
-02. All RPi scripts, database files and certificate files are located in /home/pi/ for further devlopment and configuration. 
+O2. All RPi scripts, database files and certificate files are located in /home/pi/ for further devlopment and configuration. 
 
